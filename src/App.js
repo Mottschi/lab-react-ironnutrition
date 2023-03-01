@@ -13,6 +13,7 @@ foodsImport.forEach(food => food.id = crypto.randomUUID())
 function App () {
   const [foods, setFoods] = useState(foodsImport);
   const [filter, setFilter] = useState('')
+  const [showForm, setShowForm] = useState(true)
 
   function createFood(food) {
     food.id = crypto.randomUUID();
@@ -32,21 +33,20 @@ function App () {
   }
 
   const filteredFood = (!filter.length) ? foods : foods.filter(food => food.name.toLowerCase().includes(filter.toLowerCase()));
-  console.log(filteredFood)
   
+  function handleFormToggle(event) {
+    setShowForm(!showForm);
+  }
 
   return (
     <div className="App">
-      {/* Display Add Food component here */}
-      <AddFoodForm handleCreateFood={createFood}/>
-      <Button> Hide Form / Add New Food </Button>
-
-      {/* Display Search component here */}
+      <Button onClick={handleFormToggle}>{showForm ? 'Hide Form' : 'Add New Food' }</Button> 
+      {showForm && <AddFoodForm handleCreateFood={createFood}/>}
+      
       <Search handleSearch={handleSearch} searchTerm={filter}/>
       <Divider>Food List</Divider>
 
       <Row style={{ width: '100%', justifyContent: 'center' }}>
-        {/* Render the list of Food Box components here */}
         {filteredFood.map((food)=>
           <FoodBox key={food.id} food={food} createHandlerDeleteFood={createHandlerDeleteFood}/>
         )}

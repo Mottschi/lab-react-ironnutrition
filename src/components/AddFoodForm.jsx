@@ -58,7 +58,6 @@ function AddFoodForm({handleCreateFood}) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        console.log(typeof calories)
         if (!name.length || !image.length || typeof calories === 'string' || typeof servings === 'string') return alert('Please fill out all fields before submitting a new food!');
 
         const newFood = {name, image, servings, calories};
