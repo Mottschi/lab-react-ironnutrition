@@ -19,6 +19,14 @@ function App () {
     setFoods([...foods, food]);
   }
 
+  // This function receives an id and returns an event handler that will delete the
+  // food with the matching id from the foods state array
+  function createHandlerDeleteFood(id) {
+    return (event) => {
+      setFoods (foods.filter(food => food.id !== id)); 
+    }
+  }
+
   function handleSearch(event) {
     setFilter(event.target.value);
   }
@@ -40,7 +48,7 @@ function App () {
       <Row style={{ width: '100%', justifyContent: 'center' }}>
         {/* Render the list of Food Box components here */}
         {filteredFood.map((food)=>
-          <FoodBox key={food.id} food={food}/>
+          <FoodBox key={food.id} food={food} createHandlerDeleteFood={createHandlerDeleteFood}/>
         )}
       </Row>
     </div>);
