@@ -17,18 +17,44 @@ function AddFoodForm({handleCreateFood}) {
     }
 
     function handleCaloriesInputChange(event) {
-        if (event.target.value === '') return setCalories('')
+        // There is some weirdness with invalid inputs with number inputs
+        // this conditional if block helps us avoid part of them - it blocks
+        // inputs that start with a number, but then have letters follow
+        if (!event.target.checkValidity()) {
+          event.target.value = calories;
+          return;
+        }
+
+        // this conditional makes sure that when a number was entered, it is possible
+        // to delete it with delete/backspace
+        if (event.target.value === ''){
+          setCalories('');
+          return;
+        } 
 
         let cal = parseInt(event.target.value);
         if (!isNaN(cal)) setCalories(cal);
     }
 
     function handleServingsInputChange(event) {
-        if (event.target.value === '') return setServings('')
+        // There is some weirdness with invalid inputs with number inputs
+        // this conditional if block helps us avoid part of them - it blocks
+        // inputs that start with a number, but then have letters follow
+        if (!event.target.checkValidity()) {
+          event.target.value = servings;
+          return;
+        }
 
+        // this conditional makes sure that when a number was entered, it is possible
+        // to delete it with delete/backspace
+        if (event.target.value === '') {
+          setServings('');
+          return;}
+        
         const serve = parseInt(event.target.value);
         if (!isNaN(serve)) setServings(serve);
     }
+
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -48,10 +74,10 @@ function AddFoodForm({handleCreateFood}) {
       <Divider>Add Food Entry</Divider>
 
       <label>Name:</label>
-      <Input value={name} type="text" placeholder="Name" onChange={handleNameInputChange}/>
+      <Input value={name} type="text" placeholder="Name" onChange={handleNameInputChange} required/>
 
       <label htmlFor='input-image'>Image:</label>
-      <Input type='text' name='image' id='input-image' value={image} placeholder="Image URL" onChange={handleImageInputChange}/>
+      <Input type='text' name='image' id='input-image' value={image} placeholder="Image URL" onChange={handleImageInputChange} required/>
 
       <label>Calories:</label>
       <Input type='number' name='calories' id='input-calories' value={calories} placeholder="Calories" onChange={handleCaloriesInputChange}/>
